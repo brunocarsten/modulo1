@@ -10,10 +10,6 @@ import { PopupAcerto } from '../views/acerto'
 import { PopupErro } from '../views/erro'
 import { PopupContagem } from '../views/contagem'
 import { Main } from '../views/main'
-import { Modulo2 } from '../views/modulo 2'
-import { Modulo3 } from '../views/modulo 3'
-import { Modulo4 } from '../views/modulo 4'
-import { Modulo5 } from '../views/modulo 5'
 
 export default () => {
   const location = useLocation()
@@ -43,10 +39,6 @@ export default () => {
           <Route exact path="/acerto" element={<PopupAcerto />} />
           <Route exact path="/erro" element={<PopupErro />} />
           <Route exact path="/contagem" element={<PopupContagem />} />
-          <Route exact path="/modulo_2" element={<Modulo2 />} />
-          <Route exact path="/modulo_3" element={<Modulo3 />} />
-          <Route exact path="/modulo_4" element={<Modulo4 />} />
-          <Route exact path="/modulo_5" element={<Modulo5 />} />
         </Routes>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { Header } from '../components/layout/Header'
 import { NavButton } from '../components/layout/NavButton'
@@ -19,9 +19,25 @@ import imagem_6 from '../assets/6.png'
 import imagem_7 from '../assets/7.png'
 import imagem_8 from '../assets/8.png'
 
-export const Map = (link) => {
+export const Map = () => {
   const { state } = useContext(ProgressContext)
   const { step } = state
+
+  const [disabled, setDisabled] = useState(true)
+  const [location, setLocation] = useState(`pergunta_${step}`)
+
+  const handleLocation = (index) => {
+    setLocation(`pergunta_${index}`)
+    setDisabled(false)
+  }
+
+  useEffect(() => {
+    for (let index = step; index - 1 <= step; index++) {
+      setTimeout(() => {
+        handleLocation(index)
+      }, 500 * (index + 1))
+    }
+  }, [])
 
   const stepStyle = [
     { position: { top: '25%', left: '69%' }, image: imagem_1 },
@@ -34,6 +50,14 @@ export const Map = (link) => {
     { position: { top: '77.5%', left: '38.2%' }, image: imagem_8 }
   ]
 
+  const renderBoat = () => {
+    return (
+      <div className={`barco ${location}`}>
+        <img src={barco} alt="" />
+      </div>
+    )
+  }
+
   return (
     <>
       <Header css={{ position: 'fixed', top: '0', left: '0', zIndex: '999999', background: 'white' }}></Header>
@@ -45,12 +69,12 @@ export const Map = (link) => {
             <Step key={i} className={`number ${i < step ? 'done' : ''}`} src={image} style={position} index={i + 1} />
           )
         })}
-        <div className={`barco pergunta_${step+1}`}>
-          <img src={barco} alt="" />
-        </div>
+        {renderBoat()}
       </div>
       <div className="entrar" style={{ position: 'fixed', left: '10%', bottom: '6%' }}>
         <NavButton
+          className={disabled ? 'button disabled' : 'button'}
+          disabled={disabled}
           label="ENTRAR NA COMUNIDADE"
           url="/main"
           style={{ width: 264, background: '#FF9955', color: '#FFF', maxWidth: '100%' }}
