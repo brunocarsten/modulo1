@@ -5,10 +5,10 @@ import { Routes, Route } from 'react-router-dom'
 
 import { Start } from '../views/start'
 import { Welcome } from '../views/welcome'
-import { Map } from '../views/map'
 import { PopupAcerto } from '../views/acerto'
 import { PopupErro } from '../views/erro'
 import { PopupContagem } from '../views/contagem'
+import { Map } from '../views/map'
 import { Main } from '../views/main'
 
 export default () => {

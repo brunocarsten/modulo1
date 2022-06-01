@@ -1,4 +1,4 @@
-import { useContext, useEffect, createRef, useState } from 'react'
+import { useContext, useEffect, createRef, useState, lazy, Suspense } from 'react'
 
 import { Header } from '../components/layout/Header'
 import { NavButton } from '../components/layout/NavButton'
@@ -7,7 +7,7 @@ import { ProgressContext } from '../context/progress'
 
 import '../styles/mapa.scoped.scss'
 
-import image from '../assets/fundo rio completo.png'
+import image from '../assets/fundo_rio_completo.webp'
 import barco from '../assets/barco.png'
 
 import imagem_1 from '../assets/1.png'
@@ -35,7 +35,8 @@ export const Map = () => {
   const scrollToElement = () => stepRef.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
 
   useEffect(() => {
-    scrollToElement()
+    const { current } = stepRef
+    if (current) scrollToElement()
   }, [stepRef])
 
   useEffect(() => {
@@ -67,24 +68,33 @@ export const Map = () => {
 
   return (
     <>
-      <Header css={{ position: 'fixed', top: '0', left: '0', zIndex: '999999', background: 'white' }}></Header>
-      <div className="mapa" style={{ width: '100%' }}>
-        <img src={image} alt="" style={{ width: '100%', height: 'auto' }} />
+      <Header css={{ position: 'fixed', top: '0', left: '0', zIndex: '999999', background: 'white' }} />
+      <Suspense
+        fallback={
+          <>
+            <p>carregando...</p>
+          </>
+        }
+      >
+        <div className="mapa" style={{ width: '100%' }}>
+          <img src={image} alt="" style={{ width: '100%', height: 'auto' }} loading="lazy" />
 
-        {stepStyle.map(({ position, image }, i) => {
-          return (
-            <Step
-              key={i}
-              ref={stepRef}
-              className={`number ${i < step ? 'done' : ''}`}
-              src={image}
-              style={position}
-              index={i + 1}
-            />
-          )
-        })}
-        {renderBoat()}
-      </div>
+          {stepStyle.map(({ position, image }, i) => {
+            return (
+              <Step
+                key={i}
+                ref={stepRef}
+                className={`number ${i < step ? 'done' : ''}`}
+                src={image}
+                style={position}
+                index={i + 1}
+              />
+            )
+          })}
+          {renderBoat()}
+        </div>
+      </Suspense>
+
       <div className="entrar" style={{ position: 'fixed', left: '10%', bottom: '6%' }}>
         <NavButton
           className={disabled ? 'button disabled' : 'button'}
