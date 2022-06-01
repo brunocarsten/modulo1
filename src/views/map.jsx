@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, createRef, useState } from 'react'
 
 import { Header } from '../components/layout/Header'
 import { NavButton } from '../components/layout/NavButton'
@@ -22,6 +22,7 @@ import imagem_8 from '../assets/8.png'
 export const Map = () => {
   const { state } = useContext(ProgressContext)
   const { step } = state
+  const stepRef = createRef()
 
   const [disabled, setDisabled] = useState(true)
   const [location, setLocation] = useState(`pergunta_${step}`)
@@ -31,11 +32,17 @@ export const Map = () => {
     setDisabled(false)
   }
 
+  const scrollToElement = () => stepRef.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
+
+  useEffect(() => {
+    scrollToElement()
+  }, [stepRef])
+
   useEffect(() => {
     for (let index = step; index - 1 <= step; index++) {
       setTimeout(() => {
         handleLocation(index)
-      }, 500 * (index + 1))
+      }, 700 * (index + 1))
     }
   }, [])
 
@@ -66,7 +73,14 @@ export const Map = () => {
 
         {stepStyle.map(({ position, image }, i) => {
           return (
-            <Step key={i} className={`number ${i < step ? 'done' : ''}`} src={image} style={position} index={i + 1} />
+            <Step
+              key={i}
+              ref={stepRef}
+              className={`number ${i < step ? 'done' : ''}`}
+              src={image}
+              style={position}
+              index={i + 1}
+            />
           )
         })}
         {renderBoat()}
