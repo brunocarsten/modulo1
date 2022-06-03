@@ -1,4 +1,4 @@
-import { useContext, useEffect, createRef, useState, lazy, Suspense } from 'react'
+import { useContext, useEffect, createRef, useState, useLayoutEffect } from 'react'
 
 import { Header } from '../components/layout/Header'
 import { NavButton } from '../components/layout/NavButton'
@@ -26,26 +26,33 @@ export const Map = () => {
 
   const [disabled, setDisabled] = useState(true)
   const [location, setLocation] = useState(`pergunta_${step}`)
+  const [loading, setLoading] = useState(true)
 
   const handleLocation = (index) => {
-    setLocation(`pergunta_${index}`)
-    setDisabled(false)
+    setTimeout(() => {
+      setDisabled(false)
+      setLocation(`pergunta_${index}`)
+    }, 1000)
   }
 
-  const scrollToElement = () => stepRef.current.scrollIntoView({ block: 'start', behavior: 'smooth' })
+  const scrollToElement = () => {
+    setTimeout(async () => {
+      if (stepRef.current) await stepRef.current.nextSibling.scrollIntoView({ block: 'start', behavior: 'smooth' })
+      handleLocation(step + 1)
+    }, 1000)
+  }
 
-  useEffect(() => {
-    const { current } = stepRef
-    if (current) scrollToElement()
-  }, [stepRef])
-
-  useEffect(() => {
-    for (let index = step; index - 1 <= step; index++) {
-      setTimeout(() => {
-        handleLocation(index)
-      }, 700 * (index + 1))
-    }
+  useLayoutEffect(() => {
+    setInterval(() => {
+      setLoading(false)
+    }, 3000)
   }, [])
+
+  useEffect(() => {
+    if (!loading) {
+      scrollToElement()
+    }
+  }, [loading])
 
   const stepStyle = [
     { position: { top: '25%', left: '69%' }, image: imagem_1 },
@@ -69,43 +76,46 @@ export const Map = () => {
   return (
     <>
       <Header css={{ position: 'fixed', top: '0', left: '0', zIndex: '999999', background: 'white' }} />
-      <Suspense
-        fallback={
-          <>
-            <p>carregando...</p>
-          </>
-        }
-      >
-        <div className="mapa" style={{ width: '100%' }}>
-          <img src={image} alt="" style={{ width: '100%', height: 'auto' }} loading="lazy" />
 
-          {stepStyle.map(({ position, image }, i) => {
-            return (
-              <Step
-                key={i}
-                ref={stepRef}
-                className={`number ${i < step ? 'done' : ''}`}
-                src={image}
-                style={position}
-                index={i + 1}
-              />
-            )
-          })}
-          {renderBoat()}
-        </div>
-      </Suspense>
-
-      <div className="entrar" style={{ position: 'fixed', left: '10%', bottom: '6%' }}>
-        <NavButton
-          className={disabled ? 'button disabled' : 'button'}
-          disabled={disabled}
-          label="ENTRAR NA COMUNIDADE"
-          url="/main"
-          style={{ width: 264, background: '#FF9955', color: '#FFF', maxWidth: '100%' }}
+      {loading && (
+        <div
+          style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
-          ENTRAR NA COMUNIDADE
-        </NavButton>
-      </div>
+          <p>carregando...</p>
+        </div>
+      )}
+      {!loading && (
+        <>
+          <div className="mapa" style={{ width: '100%' }}>
+            <img src={image} alt="" style={{ width: '100%', height: 'auto' }} loading="lazy" />
+
+            {stepStyle.map(({ position, image }, i) => {
+              return (
+                <Step
+                  key={i}
+                  ref={stepRef}
+                  className={`number ${i < step ? 'done' : ''}`}
+                  src={image}
+                  style={position}
+                  index={i + 1}
+                />
+              )
+            })}
+            {renderBoat()}
+          </div>
+          <div className="entrar" style={{ position: 'fixed', left: '10%', bottom: '6%' }}>
+            <NavButton
+              className={disabled ? 'button disabled' : 'button'}
+              disabled={disabled}
+              label="ENTRAR NA COMUNIDADE"
+              url="/main"
+              style={{ width: 264, background: '#FF9955', color: '#FFF', maxWidth: '100%' }}
+            >
+              ENTRAR NA COMUNIDADE
+            </NavButton>
+          </div>
+        </>
+      )}
     </>
   )
 }

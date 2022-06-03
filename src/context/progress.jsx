@@ -33,10 +33,6 @@ function ProgressProvider({ children }) {
     if (state.step > 0) {
       localStorage.setItem('progress', JSON.stringify(state))
     }
-
-    // if (state.step === 8) {
-    //   navigate('/contagem')
-    // }
   }, [state, navigate])
 
   const value = { state, dispatch }

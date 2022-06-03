@@ -63,7 +63,7 @@ export const PopupErro = (link) => {
               <p style={style.text}>Tente novamente!</p>
               <Button
                 onClick={() => {
-                  navigate(-1)
+                  navigate('/main', { state: { error: true } })
                 }}
                 label="VOLTAR"
                 url={link}
