@@ -26,6 +26,16 @@ function ProgressProvider({ children }) {
   })
 
   useEffect(() => {
+    const storage = JSON.parse(localStorage.getItem('progress'))
+
+    if (storage != '' && storage != null) {
+      if (storage.step === 8) {
+        localStorage.clear()
+      }
+    }
+  }, [])
+
+  useEffect(() => {
     if (JSON.parse(localStorage.getItem('progress'))) dispatch({ type: 'update' })
   }, [])
 
