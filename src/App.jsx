@@ -1,15 +1,19 @@
 import './styles/transition.scss'
 import Routes from './routes'
 import { ProgressProvider } from './context/progress'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
+import React from 'react'
 
 function App() {
   return (
-    <BrowserRouter>
-      <ProgressProvider>
-        <Routes />
-      </ProgressProvider>
-    </BrowserRouter>
+    <React.StrictMode>
+      <HashRouter>
+        <ProgressProvider>
+          <Routes />
+        </ProgressProvider>
+      </HashRouter>
+    </React.StrictMode>
+
   )
 }
 

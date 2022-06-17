@@ -5,7 +5,7 @@ const config = {
   version: '1.2',
   organization: 'Faros Educacional',
   title: 'Módulo 1',
-  language: 'pt-BR',
+  language: 'en-US',
   masteryScore: 80,
   startingPage: 'index.html',
   source: path.join(__dirname, 'build'),
