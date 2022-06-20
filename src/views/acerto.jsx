@@ -57,60 +57,59 @@ const style = {
 export const PopupAcerto = () => {
   let link = '/mapa'
   function handleAnswer() {
-    const itemsDone = JSON.parse(localStorage.getItem('progress'))
+    const itemsDone = JSON.parse(localStorage.getItem('modulo1'))
     if (itemsDone) {
       if (itemsDone.step == 8) {
         link = '/contagem'
       }
     }
   }
-  return(
-  <>
-    <Header></Header>
-    <Container>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'calc(100vh - 83px)' }}>
-        <div className="popup" style={style.main}>
-          <div className="bkgesq" style={style.bkg}>
-            <img src={imgesq} alt="" />
-          </div>
-          <div className="content" style={style.content}>
-            <div className="numeros" style={style.img}>
-              <div className="pontos" style={style.pontos}>
-                <div>
-                  <img
-                    src={imgcontent}
-                    alt=""
-                    style={{
-                      height: 55,
-                      filter:
-                        'brightness(0) saturate(100%) invert(21%) sepia(12%) saturate(3223%) hue-rotate(64deg) brightness(88%) contrast(102%)'
-                    }}
-                  />
-                  <img src={zero} alt="" />
-                </div>
-                <div className="word">
-                  <img src={pontos} alt="" />
+  return (
+    <>
+      <Header></Header>
+      <Container>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'calc(100vh - 83px)' }}>
+          <div className="popup" style={style.main}>
+            <div className="bkgesq" style={style.bkg}>
+              <img src={imgesq} alt="" />
+            </div>
+            <div className="content" style={style.content}>
+              <div className="numeros" style={style.img}>
+                <div className="pontos" style={style.pontos}>
+                  <div>
+                    <img
+                      src={imgcontent}
+                      alt=""
+                      style={{
+                        height: 55,
+                        filter:
+                          'brightness(0) saturate(100%) invert(21%) sepia(12%) saturate(3223%) hue-rotate(64deg) brightness(88%) contrast(102%)'
+                      }}
+                    />
+                    <img src={zero} alt="" />
+                  </div>
+                  <div className="word">
+                    <img src={pontos} alt="" />
+                  </div>
                 </div>
               </div>
+              <h1 style={style.title}>Muito bem! Resposta correta!</h1>
+              <p style={style.text}>Siga sua jornada em defesa dos povos tradicionais.</p>
+              <NavButton
+                onLoad={handleAnswer()}
+                label="AVANÇAR"
+                url={link}
+                style={{ width: 264, marginTop: 20, background: '#FF9955', color: '#FFF', maxWidth: '100%' }}
+              >
+                AVANÇAR
+              </NavButton>
             </div>
-            <h1 style={style.title}>Muito bem! Resposta correta!</h1>
-            <p style={style.text}>Siga sua jornada em defesa dos povos tradicionais.</p>
-            <NavButton
-              onLoad = {handleAnswer()}
-              label="AVANÇAR"
-              url={link}
-              style={{ width: 264, marginTop: 20, background: '#FF9955', color: '#FFF', maxWidth: '100%' }}
-            >
-              AVANÇAR
-            </NavButton>
-          </div>
-          <div className="bkgdir" style={style.bkg}>
-            <img src={imgdir} alt="" />
+            <div className="bkgdir" style={style.bkg}>
+              <img src={imgdir} alt="" />
+            </div>
           </div>
         </div>
-      </div>
-    </Container>
-  </>
+      </Container>
+    </>
   )
 }
-

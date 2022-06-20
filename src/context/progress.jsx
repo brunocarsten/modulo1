@@ -9,7 +9,7 @@ const StepReducer = ({ step, points }, { type }) => {
       return { step: step + 1, points: points + 10 }
     }
     case 'update': {
-      const storage = JSON.parse(localStorage.getItem('progress'))
+      const storage = JSON.parse(localStorage.getItem('modulo1'))
       return { step: storage.step, points: storage.points }
     }
     default: {
@@ -26,7 +26,7 @@ function ProgressProvider({ children }) {
   })
 
   useEffect(() => {
-    const storage = JSON.parse(localStorage.getItem('progress'))
+    const storage = JSON.parse(localStorage.getItem('modulo1'))
 
     if (storage != '' && storage != null) {
       if (storage.step === 8) {
@@ -36,12 +36,12 @@ function ProgressProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem('progress'))) dispatch({ type: 'update' })
+    if (JSON.parse(localStorage.getItem('modulo1'))) dispatch({ type: 'update' })
   }, [])
 
   useEffect(() => {
     if (state.step > 0) {
-      localStorage.setItem('progress', JSON.stringify(state))
+      localStorage.setItem('modulo1', JSON.stringify(state))
     }
   }, [state, navigate])
 
